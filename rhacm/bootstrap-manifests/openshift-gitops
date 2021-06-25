@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ArgoCD
+metadata:
+  name: openshift-gitops
+  namespace: openshift-gitops
+  annotations:
+    apps.open-cluster-management.io/reconcile-option: replace
+spec:
+  server:
+    route:
+      enabled: true
+  initialRepositories: |
+    - insecure: true
+      insecureIgnoreHostKey: true
+      passwordSecret:
+        key: password
+        name: tk-argo-github-secret
+      usernameSecret:
+        name: tk-argo-github-secret
+        key: username
+      type: git
+      url: https://github.com/ch-stark/gitops.git
+  resourceExclusions: |
+    - apiGroups:
+      - tekton.dev
+      clusters:
+      - '*'
+      kinds:
+      - TaskRun
+      - PipelineRun
+  tls:
+    ca:
+      configMapName: tk-ca-injection
