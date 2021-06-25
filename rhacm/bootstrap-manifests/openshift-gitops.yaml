@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
-  name: openshift-gitops
+  name: openshift-gitops-test-cstark
   namespace: openshift-gitops
   annotations:
     apps.open-cluster-management.io/reconcile-option: replace
